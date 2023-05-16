@@ -14,12 +14,6 @@ pipeline {
             }
         }
 
-        // stage('Terraform Destroy') {
-        //     steps {
-        //         // Destroy the Terraform infrastructure
-        //         sh 'terraform destroy -auto-approve'
-        //     }
-        // }
         
         stage('Terraform Init') {
             steps {
@@ -78,6 +72,12 @@ pipeline {
             steps {
                 sh 'aws ecs update-service --cluster to-do-app --desired-count 1 --service to-do-app-service --task-definition to-do-app --force-new-deployment'
                 sh 'sleep 100'
+            }
+        }
+        stage('Terraform Destroy') {
+            steps {
+                // Destroy the Terraform infrastructure
+                sh 'terraform destroy -auto-approve'
             }
         }
     }
