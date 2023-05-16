@@ -17,9 +17,9 @@ pipeline {
         
         stage('Terraform Init') {
             steps {
-                // Install and configure Terraform
+                // Download and install Terraform
                 sh 'curl -LO https://releases.hashicorp.com/terraform/0.15.0/terraform_0.15.0_linux_amd64.zip'
-                sh 'unzip terraform_0.15.0_linux_amd64.zip'
+                sh 'jar xvf terraform_0.15.0_linux_amd64.zip'
                 sh 'chmod +x terraform'
                 sh 'export PATH=$PATH:$PWD'
                 
