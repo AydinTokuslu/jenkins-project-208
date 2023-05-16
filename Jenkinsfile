@@ -78,6 +78,7 @@ pipeline {
             steps {
                 // Destroy the Terraform infrastructure
                 sh 'terraform destroy -auto-approve'
+                sh 'sleep 100'
             }
         }
     }
