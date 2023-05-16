@@ -14,12 +14,12 @@ pipeline {
             }
         }
 
-        stage('Terraform Destroy') {
-            steps {
-                // Destroy the Terraform infrastructure
-                sh 'terraform destroy -auto-approve'
-            }
-        }
+        // stage('Terraform Destroy') {
+        //     steps {
+        //         // Destroy the Terraform infrastructure
+        //         sh 'terraform destroy -auto-approve'
+        //     }
+        // }
         
         stage('Terraform Init') {
             steps {
