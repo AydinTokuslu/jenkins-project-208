@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    environment {
-        ECR_REGISTRY = "731967392843.dkr.ecr.us-east-1.amazonaws.com"
-        APP_REPO_NAME= "clarusway/jenkins-project"
-    }
+    // environment {
+    //     ECR_REGISTRY = "731967392843.dkr.ecr.us-east-1.amazonaws.com"
+    //     APP_REPO_NAME= "clarusway/jenkins-project"
+    // }
     
     
     stages {
