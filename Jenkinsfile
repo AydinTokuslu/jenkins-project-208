@@ -70,6 +70,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'aws ecs update-service --cluster to-do-app --desired-count 1 --service to-do-app-service --task-definition to-do-app --force-new-deployment'
+                sh 'sleep 100'
             }
         }
     }
