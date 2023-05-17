@@ -15,32 +15,32 @@ pipeline {
         }
 
         
-        stage('Terraform Init') {
-            steps {
-                // Download and install Terraform
-                sh 'curl -LO https://releases.hashicorp.com/terraform/0.15.0/terraform_0.15.0_linux_amd64.zip'
-                sh 'jar xvf terraform_0.15.0_linux_amd64.zip'
-                sh 'chmod +x terraform'
-                sh 'export PATH=$PATH:$PWD'
+        // stage('Terraform Init') {
+        //     steps {
+        //         // Download and install Terraform
+        //         sh 'curl -LO https://releases.hashicorp.com/terraform/0.15.0/terraform_0.15.0_linux_amd64.zip'
+        //         sh 'jar xvf terraform_0.15.0_linux_amd64.zip'
+        //         sh 'chmod +x terraform'
+        //         sh 'export PATH=$PATH:$PWD'
                 
-                // Initialize Terraform in your working directory
-                sh 'terraform init'
-            }
-        }
+        //         // Initialize Terraform in your working directory
+        //         sh 'terraform init'
+        //     }
+        // }
         
-        stage('Fetch Terraform File') {
-            steps {
-                // Fetch the Terraform file from GitHub
-                sh 'curl -O https://raw.githubusercontent.com/AydinTokuslu/jenkins-project-208/main/main.tf'
-            }
-        }
+        // stage('Fetch Terraform File') {
+        //     steps {
+        //         // Fetch the Terraform file from GitHub
+        //         sh 'curl -O https://raw.githubusercontent.com/AydinTokuslu/jenkins-project-208/main/main.tf'
+        //     }
+        // }
         
-        stage('Terraform Plan') {
-            steps {
-                // Generate Terraform plan
-                sh 'terraform plan -out=tfplan'
-            }
-        }
+        // stage('Terraform Plan') {
+        //     steps {
+        //         // Generate Terraform plan
+        //         sh 'terraform plan -out=tfplan'
+        //     }
+        // }
         
         stage('Terraform Apply') {
             steps {
