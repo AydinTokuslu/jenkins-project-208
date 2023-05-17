@@ -42,19 +42,19 @@ pipeline {
         //     }
         // }
         
-        stage('Terraform Apply') {
-            steps {
-                // Apply the Terraform plan
-                sh 'terraform apply -auto-approve tfplan'
-            }
-        }
+        // stage('Terraform Apply') {
+        //     steps {
+        //         // Apply the Terraform plan
+        //         sh 'terraform apply -auto-approve tfplan'
+        //     }
+        // }
         
-        stage('Cleanup') {
-            steps {
-                // Clean up any temporary files
-                sh 'rm -rf terraform* tfplan terraform-file.tf'
-            }
-        }
+        // stage('Cleanup') {
+        //     steps {
+        //         // Clean up any temporary files
+        //         sh 'rm -rf terraform* tfplan terraform-file.tf'
+        //     }
+        // }
 
         stage('Build Docker Image') {
             steps {
@@ -74,13 +74,13 @@ pipeline {
                 sh 'sleep 100'
             }
         }
-        stage('Terraform Destroy') {
-            steps {
-                // Destroy the Terraform infrastructure
-                sh 'terraform destroy -auto-approve'
-                sh 'sleep 100'
-            }
-        }
+        // stage('Terraform Destroy') {
+        //     steps {
+        //         // Destroy the Terraform infrastructure
+        //         sh 'terraform destroy -auto-approve'
+        //         sh 'sleep 100'
+        //     }
+        // }
     }
     post {
         always {
