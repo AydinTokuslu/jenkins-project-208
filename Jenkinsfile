@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         // ECR_REGISTRY = "731967392843.dkr.ecr.us-east-1.amazonaws.com"
-        // APP_REPO_NAME= "AydinTokuslu/jenkins-project-208"
+        // APP_REPO_NAME= "jenkinsproject"
         registryCredential = 'ecr:us-east-1:awscreds'
         appRegistry = '731967392843.dkr.ecr.us-west-1.amazonaws.com/jenkinsproject'
         vprofileRegistry = "https://731967392843.dkr.ecr.us-east-1.amazonaws.com"
