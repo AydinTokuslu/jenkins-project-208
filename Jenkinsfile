@@ -1,11 +1,11 @@
 pipeline {
     agent any
     environment {
-        // ECR_REGISTRY = "731967392843.dkr.ecr.us-east-1.amazonaws.com"
-        // APP_REPO_NAME= "jenkinsproject"
-        registryCredential = 'ecr:us-east-1:awscreds'
-        appRegistry = '731967392843.dkr.ecr.us-west-1.amazonaws.com/jenkinsproject'
-        vprofileRegistry = "https://731967392843.dkr.ecr.us-east-1.amazonaws.com"
+        ECR_REGISTRY = "731967392843.dkr.ecr.us-east-1.amazonaws.com"
+        APP_REPO_NAME= "jenkinsproject"
+        // registryCredential = 'ecr:us-east-1:awscreds'
+        // appRegistry = '731967392843.dkr.ecr.us-west-1.amazonaws.com/jenkinsproject'
+        // vprofileRegistry = "https://731967392843.dkr.ecr.us-east-1.amazonaws.com"
     }
     
     
@@ -59,43 +59,43 @@ pipeline {
         //     }
         // }
 
-        // stage('Build Docker Image') {
-        //     steps {
-        //         sh 'docker build --force-rm -t "$ECR_REGISTRY/$APP_REPO_NAME:latest" .'
-        //         sh 'docker image ls'
-        //     }
-        // }
-        // stage('Push Image to ECR Repo') {
-        //     steps {
-        //         sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin "$ECR_REGISTRY"'
-        //         sh 'docker push "$ECR_REGISTRY/$APP_REPO_NAME:latest"'
-        //     }
-        // }
-        // stage('Deploy') {
-        //     steps {
-        //         sh 'aws ecs update-service --cluster to-do-app --desired-count 1 --service to-do-app-service --task-definition to-do-app --force-new-deployment'
-        //         sh 'sleep 100'
-        //     }
-        // }
-
-        stage('Build App Image') {
+        stage('Build Docker Image') {
             steps {
-                script {
-                    dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
-                }
+                sh 'docker build --force-rm -t "$ECR_REGISTRY/$APP_REPO_NAME:latest" .'
+                sh 'docker image ls'
             }
         }
+        stage('Push Image to ECR Repo') {
+            steps {
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin "$ECR_REGISTRY"'
+                sh 'docker push "$ECR_REGISTRY/$APP_REPO_NAME:latest"'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'aws ecs update-service --cluster to-do-app --desired-count 1 --service to-do-app-service --task-definition to-do-app --force-new-deployment'
+                sh 'sleep 100'
+            }
+        }
+
+        // stage('Build App Image') {
+        //     steps {
+        //         script {
+        //             dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
+        //         }
+        //     }
+        // }
         
-        stage('Upload App Image') {
-          steps{
-            script {
-              docker.withRegistry( vprofileRegistry, registryCredential ) {
-                dockerImage.push("$BUILD_NUMBER")
-                dockerImage.push('latest')
-              }
-            }
-          }
-        }
+        // stage('Upload App Image') {
+        //   steps{
+        //     script {
+        //       docker.withRegistry( vprofileRegistry, registryCredential ) {
+        //         dockerImage.push("$BUILD_NUMBER")
+        //         dockerImage.push('latest')
+        //       }
+        //     }
+        //   }
+        // }
 
         // stage('Terraform Destroy') {
         //     steps {
