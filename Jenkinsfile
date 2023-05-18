@@ -3,62 +3,8 @@ pipeline {
     environment {
         ECR_REGISTRY = "731967392843.dkr.ecr.us-east-1.amazonaws.com"
         APP_REPO_NAME= "jenkinsproject"
-        // registryCredential = 'ecr:us-east-1:awscreds'
-        // appRegistry = '731967392843.dkr.ecr.us-west-1.amazonaws.com/jenkinsproject'
-        // vprofileRegistry = "https://731967392843.dkr.ecr.us-east-1.amazonaws.com"
     }
-    
-    
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout your source code repository
-                checkout scm
-            }
-        }
-
-        
-        // stage('Terraform Init') {
-        //     steps {
-        //         // Download and install Terraform
-        //         sh 'curl -LO https://releases.hashicorp.com/terraform/0.15.0/terraform_0.15.0_linux_amd64.zip'
-        //         sh 'jar xvf terraform_0.15.0_linux_amd64.zip'
-        //         sh 'chmod +x terraform'
-        //         sh 'export PATH=$PATH:$PWD'
-                
-        //         // Initialize Terraform in your working directory
-        //         sh 'terraform init'
-        //     }
-        // }
-        
-        // stage('Fetch Terraform File') {
-        //     steps {
-        //         // Fetch the Terraform file from GitHub
-        //         sh 'curl -O https://raw.githubusercontent.com/AydinTokuslu/jenkins-project-208/main/main.tf'
-        //     }
-        // }
-        
-        // stage('Terraform Plan') {
-        //     steps {
-        //         // Generate Terraform plan
-        //         sh 'terraform plan -out=tfplan'
-        //     }
-        // }
-        
-        // stage('Terraform Apply') {
-        //     steps {
-        //         // Apply the Terraform plan
-        //         sh 'terraform apply -auto-approve tfplan'
-        //     }
-        // }
-        
-        // stage('Cleanup') {
-        //     steps {
-        //         // Clean up any temporary files
-        //         sh 'rm -rf terraform* tfplan terraform-file.tf'
-        //     }
-        // }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build --force-rm -t "$ECR_REGISTRY/$APP_REPO_NAME:latest" .'
@@ -71,39 +17,6 @@ pipeline {
                 sh 'docker push "$ECR_REGISTRY/$APP_REPO_NAME:latest"'
             }
         }
-        stage('Deploy') {
-            steps {
-                sh 'aws ecs update-service --cluster to-do-app --desired-count 1 --service to-do-app-service --task-definition to-do-app --force-new-deployment'
-                sh 'sleep 100'
-            }
-        }
-
-        // stage('Build App Image') {
-        //     steps {
-        //         script {
-        //             dockerImage = docker.build( appRegistry + ":$BUILD_NUMBER", "./Docker-files/app/multistage/")
-        //         }
-        //     }
-        // }
-        
-        // stage('Upload App Image') {
-        //   steps{
-        //     script {
-        //       docker.withRegistry( vprofileRegistry, registryCredential ) {
-        //         dockerImage.push("$BUILD_NUMBER")
-        //         dockerImage.push('latest')
-        //       }
-        //     }
-        //   }
-        // }
-
-        // stage('Terraform Destroy') {
-        //     steps {
-        //         // Destroy the Terraform infrastructure
-        //         sh 'terraform destroy -auto-approve'
-        //         sh 'sleep 100'
-        //     }
-        // }
     }
     post {
         always {
@@ -111,5 +24,4 @@ pipeline {
             sh 'docker image prune -af'
         }
     }
-    
 }
